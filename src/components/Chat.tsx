@@ -93,11 +93,11 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
     return (
         <div className={`flex flex-col ${currentMessages?.length > 0 ? 'justify-between' : 'justify-center'} h-full w-full`}>
             {/* Text bubbles area */}
-            {currentMessages?.length > 0 && <div className="overflow-y-auto pt-5 px-2 [&::-webkit-scrollbar]:bg-transparent [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-pink-900 [&::-webkit-scrollbar-thumb]:rounded-full">
+            {currentMessages?.length > 0 && <div className="overflow-y-auto pt-5 px-2 [&::-webkit-scrollbar]:bg-transparent [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-[var(--pink-200)] dark:[&::-webkit-scrollbar-thumb]:bg-[var(--pink-800)] [&::-webkit-scrollbar-thumb]:rounded-full">
                 {currentMessages?.map((message: any, index: any) => (
                     <div key={index} className={`flex mb-5 gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'} text-left`}>
                         {/* Message Bubble */}
-                        <div className={`max-w-[70%] p-3 rounded-xl ${message.role === 'user' ? 'bg-[#3F4D4E]' : 'bg-transparent'}`}>
+                        <div className={`max-w-[70%] p-3 rounded-xl ${message.role === 'user' ? 'dark:bg-[var(--pink-700)] bg-[var(--pink-400)]' : 'bg-transparent'}`}>
                             {console.log('Message content:', message.content)}
                             {message.content
                                 // First split on complete think tags
@@ -108,8 +108,8 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
                                         const thoughtContent = part.replace(/<\/?think>/g, '');
                                         return (
                                             <span>
-                                                <p className="text-xs text-bold italics text-gray-500">thinking...</p>
-                                                <i className="text-xs text-gray-500">{thoughtContent}</i>
+                                                <p className="text-xs text-bold italics text-[var(--pink-500)]">thinking...</p>
+                                                <i className="text-xs text-[var(--pink-500)]">{thoughtContent}</i>
                                                 <br />
                                                 <br />
                                             </span>
@@ -122,8 +122,8 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
                                             const thoughtContent = subPart.replace('<think>', '');
                                             return (
                                                 <span key={i}>
-                                                    <p className="text-xs text-bold italics text-gray-500">thinking...</p>
-                                                    <i className="text-xs text-gray-500">{thoughtContent}</i>
+                                                    <p className="text-xs text-bold italics text-[var(--pink-500)]">thinking...</p>
+                                                    <i className="text-xs text-[var(--pink-500)]">{thoughtContent}</i>
                                                     <br />
                                                     <br />
                                                 </span>
@@ -132,8 +132,8 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
                                             const thoughtContent = subPart.replace('</think>', '');
                                             return (
                                                 <span key={i}>
-                                                    <p className="text-xs text-bold italics text-gray-500">thinking...</p>
-                                                    <i className="text-xs text-gray-500">{thoughtContent}</i>
+                                                    <p className="text-xs text-bold italics text-[var(--pink-500)]">thinking...</p>
+                                                    <i className="text-xs text-[var(--pink-500)]">{thoughtContent}</i>
                                                     <br />
                                                     <br />
                                                 </span>
@@ -168,7 +168,7 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
                         placeholder={`${currentMessages?.length > 0 ? 'Continue the conversation...' : 'Ponder about the universe...'}`}
                     />
                     <button
-                        className="p-2.5 rounded-r-lg border-none bg-[#B18076] text-white cursor-pointer flex items-center"
+                        className="p-2.5 rounded-r-lg border-none bg-[var(--pink-600)] text-white cursor-pointer flex items-center"
                         onClick={() => addUserMessage(message)}
                     >
                         <SendHorizontal size={20} />

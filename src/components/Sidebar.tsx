@@ -21,11 +21,11 @@ export default function Sidebar({ setCurrentChatId }: { setCurrentChatId: (id: s
 
     return (
         <div className="h-screen w-64 flex-shrink-0">
-            <div className="h-full flex flex-col justify-between bg-[var(--pink)] dark:bg-[var(--pink-900)] rounded-lg p-5 text-black dark:text-white">
+            <div className="h-full flex flex-col justify-between bg-[var(--pink-100)] dark:bg-[var(--pink-900)] rounded-lg p-5 text-black dark:text-white">
                 <div>
                     <button
                         onClick={createNewChat}
-                        className="w-full py-2 mb-3 rounded-md text-white cursor-pointer bg-[var(--pink-700)] hover:bg-[var(--pink-800)]"
+                        className="w-full py-2 mb-3 rounded-md text-black dark:text-white cursor-pointer dark:bg-[var(--pink-700)] border border-[var(--pink-700)] dark:hover:bg-[var(--pink-800)] hover:bg-[var(--pink)]"
                     >
                         + new chat
                     </button>
@@ -46,7 +46,7 @@ export default function Sidebar({ setCurrentChatId }: { setCurrentChatId: (id: s
                         </div>
                     ))}
                 </div>
-                <button className={`w-full ${isSignedIn ? 'text-sm py-2.5' : 'text-md py-2'} mb-3 rounded-md text-white bg-[var(--pink-800)] hover:bg-[var(--pink-700)]`} onClick={isSignedIn ? signout : signin}>
+                <button className={`w-full ${isSignedIn ? 'text-sm py-2.5' : 'text-md py-2'} mb-3 rounded-md text-black dark:text-white border border-[var(--pink-800)] dark:bg-[var(--pink-800)] dark:hover:bg-[var(--pink-700)] hover:bg-[var(--pink)]`} onClick={isSignedIn ? signout : signin}>
                     {isSignedIn ? 'sign out ' + user?.email : 'sign in'}
                 </button>
             </div>
