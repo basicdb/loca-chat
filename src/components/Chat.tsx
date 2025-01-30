@@ -145,7 +145,7 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
                                                 <span>
                                                     <p className="text-xs text-bold italics text-[var(--pink-500)]">thinking...</p>
                                                     <i className="text-xs text-[var(--pink-500)]">
-                                                        {thoughtContent.split('\n').map((line, i) => (
+                                                        {thoughtContent.split('\n').map((line: string, i: number) => (
                                                             <span key={i} className="block mb-5">{line}</span>
                                                         ))}
                                                     </i>
@@ -160,7 +160,7 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
                                                     <span key={i}>
                                                         <p className="text-xs text-bold italics text-[var(--pink-500)]">thinking...</p>
                                                         <i className="text-xs text-[var(--pink-500)]">
-                                                            {thoughtContent.split('\n').map((line, j) => (
+                                                            {thoughtContent.split('\n').map((line: string, j: number) => (
                                                                 <span key={j} className="block mb-5">{line}</span>
                                                             ))}
                                                         </i>
@@ -172,7 +172,7 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
                                                     <span key={i}>
                                                         <p className="text-xs text-bold italics text-[var(--pink-500)]">thinking...</p>
                                                         <i className="text-xs text-[var(--pink-500)]">
-                                                            {thoughtContent.split('\n').map((line, j) => (
+                                                            {thoughtContent.split('\n').map((line: string, j: number) => (
                                                                 <span key={j} className="block mb-5">{line}</span>
                                                             ))}
                                                         </i>
