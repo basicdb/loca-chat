@@ -20,7 +20,7 @@ export default function Sidebar({ setCurrentChatId }: { setCurrentChatId: (id: s
     }
 
     return (
-        <div className="h-screen w-64 flex-shrink-0">
+        <div className="h-screen w-64 flex-shrink-0 p-2">
             <div className="h-full flex flex-col justify-between bg-[var(--pink-100)] dark:bg-[var(--pink-900)] rounded-lg p-5 text-black dark:text-white">
                 <div>
                     <button

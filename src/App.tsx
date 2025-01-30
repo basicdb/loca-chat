@@ -1,16 +1,61 @@
 import './App.css'
 import Chat from './components/Chat'
 import Sidebar from './components/Sidebar'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 function App() {
   const [currentChatId, setCurrentChatId] = useState('currentChatId');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const handleSidebarClose = () => {
+    setIsSidebarOpen(false);
+  };
+
+  const handleChatSelection = (chatId: string) => {
+    setCurrentChatId(chatId);
+    handleSidebarClose();
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      // If window width is >= medium breakpoint (768px for default Tailwind md:),
+      // ensure sidebar state is closed
+      if (window.innerWidth >= 768) {
+        setIsSidebarOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <div className="flex w-[100vw] h-screen">
-      <div className="flex hidden md:block">
-        <Sidebar setCurrentChatId={setCurrentChatId} />
+      {/* Burger menu icon for mobile */}
+      <button
+        className="md:hidden fixed top-4 left-4 z-20 p-2 rounded-lg bg-white dark:bg-black"
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+
+      {/* Overlay for closing sidebar */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/70 z-30 md:hidden"
+          onClick={handleSidebarClose}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div className={`fixed md:static md:block z-40 ${isSidebarOpen ? 'block' : 'hidden'}`}>
+        <Sidebar
+          setCurrentChatId={handleChatSelection}
+        />
       </div>
+
       <div className="flex w-[800px] min-w-[320px] mx-auto px-5">
         <Chat currentChatId={currentChatId} />
       </div>

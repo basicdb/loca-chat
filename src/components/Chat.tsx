@@ -75,11 +75,47 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
             <em className="italic">{props.children}</em>
         ),
         ul: (props: any) => (
-            <ul className="list-disc list-inside space-y-1 my-2">{props.children}</ul>
+            <ul className="list-disc ml-4 space-y-1 my-2 [&>li]:pl-1">{props.children}</ul>
         ),
         li: (props: any) => (
-            <li className='ml-4 pl-4 -indent-5.5'>{props.children}</li>
+            <li>
+                <div className="inline">{props.children}</div>
+            </li>
         ),
+        code: (props: any) => {
+            const { children } = props;
+            return (
+                <code className="bg-[var(--pink-100)] dark:bg-[var(--pink-900)] px-4 py-0.5 rounded font-mono text-sm">
+                    {children}
+                </code>
+            );
+        },
+        pre: (props: any) => {
+            const codeText = props.children.props.children;
+            const [copyText, setCopyText] = useState('Copy');
+
+            const handleCopy = () => {
+                navigator.clipboard.writeText(codeText);
+                setCopyText('Copied!');
+                setTimeout(() => {
+                    setCopyText('Copy');
+                }, 400);
+            };
+
+            return (
+                <div className="relative">
+                    <pre className="bg-[var(--pink-100)] dark:bg-[var(--pink-900)] p-4 rounded-lg my-4 overflow-x-auto font-mono text-sm">
+                        {props.children}
+                    </pre>
+                    <button
+                        onClick={handleCopy}
+                        className="absolute top-2 right-2 px-2 py-1 text-xs rounded bg-[var(--pink-200)] dark:bg-[var(--pink-800)] hover:bg-[var(--pink-300)] dark:hover:bg-[var(--pink-700)] transition-colors"
+                    >
+                        {copyText}
+                    </button>
+                </div>
+            );
+        },
     };
 
     const scrollToBottom = () => {
@@ -99,53 +135,65 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
                         {/* Message Bubble */}
                         <div className={`max-w-[70%] p-3 rounded-xl ${message.role === 'user' ? 'dark:bg-[var(--pink-700)] bg-[var(--pink-400)]' : 'bg-transparent'}`}>
                             {console.log('Message content:', message.content)}
-                            {message.content
-                                // First split on complete think tags
-                                .split(/(<think>.*?<\/think>)/gs)
-                                .map((part: any) => {
-                                    // If this is a complete think tag, process it
-                                    if (part.startsWith('<think>') && part.endsWith('</think>')) {
-                                        const thoughtContent = part.replace(/<\/?think>/g, '');
-                                        return (
-                                            <span>
-                                                <p className="text-xs text-bold italics text-[var(--pink-500)]">thinking...</p>
-                                                <i className="text-xs text-[var(--pink-500)]">{thoughtContent}</i>
-                                                <br />
-                                                <br />
-                                            </span>
-                                        );
-                                    }
-
-                                    // For remaining parts, split and process any incomplete think tags
-                                    return part.split(/([^<]*<\/think>|<think>[^<\n]*)/g).map((subPart: any, i: any) => {
-                                        if (subPart.startsWith('<think>')) {
-                                            const thoughtContent = subPart.replace('<think>', '');
+                            {message.role === 'assistant' ? (
+                                message.content
+                                    .split(/(<think>.*?<\/think>)/gs)
+                                    .map((part: any) => {
+                                        if (part.startsWith('<think>') && part.endsWith('</think>')) {
+                                            const thoughtContent = part.replace(/<\/?think>/g, '');
                                             return (
-                                                <span key={i}>
+                                                <span>
                                                     <p className="text-xs text-bold italics text-[var(--pink-500)]">thinking...</p>
-                                                    <i className="text-xs text-[var(--pink-500)]">{thoughtContent}</i>
-                                                    <br />
-                                                    <br />
-                                                </span>
-                                            );
-                                        } else if (subPart.endsWith('</think>')) {
-                                            const thoughtContent = subPart.replace('</think>', '');
-                                            return (
-                                                <span key={i}>
-                                                    <p className="text-xs text-bold italics text-[var(--pink-500)]">thinking...</p>
-                                                    <i className="text-xs text-[var(--pink-500)]">{thoughtContent}</i>
-                                                    <br />
-                                                    <br />
+                                                    <i className="text-xs text-[var(--pink-500)]">
+                                                        {thoughtContent.split('\n').map((line, i) => (
+                                                            <span key={i} className="block mb-5">{line}</span>
+                                                        ))}
+                                                    </i>
                                                 </span>
                                             );
                                         }
-                                        return (
-                                            <span key={i}>
-                                                <ReactMarkdown components={markdownComponents}>{subPart}</ReactMarkdown>
-                                            </span>
-                                        );
-                                    });
-                                })}
+
+                                        return part.split(/([^<]*<\/think>|<think>[^<\n]*)/g).map((subPart: any, i: any) => {
+                                            if (subPart.startsWith('<think>')) {
+                                                const thoughtContent = subPart.replace('<think>', '');
+                                                return (
+                                                    <span key={i}>
+                                                        <p className="text-xs text-bold italics text-[var(--pink-500)]">thinking...</p>
+                                                        <i className="text-xs text-[var(--pink-500)]">
+                                                            {thoughtContent.split('\n').map((line, j) => (
+                                                                <span key={j} className="block mb-5">{line}</span>
+                                                            ))}
+                                                        </i>
+                                                    </span>
+                                                );
+                                            } else if (subPart.endsWith('</think>')) {
+                                                const thoughtContent = subPart.replace('</think>', '');
+                                                return (
+                                                    <span key={i}>
+                                                        <p className="text-xs text-bold italics text-[var(--pink-500)]">thinking...</p>
+                                                        <i className="text-xs text-[var(--pink-500)]">
+                                                            {thoughtContent.split('\n').map((line, j) => (
+                                                                <span key={j} className="block mb-5">{line}</span>
+                                                            ))}
+                                                        </i>
+                                                    </span>
+                                                );
+                                            }
+                                            return (
+                                                <span key={i}>
+                                                    <ReactMarkdown components={{
+                                                        ...markdownComponents,
+                                                        p: (props: any) => (
+                                                            <p className="mb-5">{props.children}</p>
+                                                        ),
+                                                    }}>{subPart}</ReactMarkdown>
+                                                </span>
+                                            );
+                                        });
+                                    })
+                            ) : (
+                                <ReactMarkdown components={markdownComponents}>{message.content}</ReactMarkdown>
+                            )}
                         </div>
                     </div>
                 ))}
