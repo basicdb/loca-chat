@@ -6,6 +6,7 @@ import { useShortcut } from '../hooks/useShortcut';
 
 export default function Chat({ currentChatId, setCurrentChatId }: { currentChatId: string, setCurrentChatId: (id: string) => void }) {
     const [message, setMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const { db } = useBasic();
     const messages = useQuery(() => db.collection('messages').getAll());
     const currentMessages = messages?.filter((message: any) => message.chat_id === currentChatId);
@@ -34,6 +35,7 @@ export default function Chat({ currentChatId, setCurrentChatId }: { currentChatI
     }
 
     const generateResponse = async (message: string, chatId: string) => {
+        setIsLoading(true);
         const cleanedMessages = currentMessages?.map((message: any) => ({
             role: message.role,
             content: message.content,
@@ -68,6 +70,7 @@ export default function Chat({ currentChatId, setCurrentChatId }: { currentChatI
                 created_at: new Date().toISOString()
             });
         }
+        setIsLoading(false);
     }
 
     const markdownComponents = {
@@ -207,6 +210,17 @@ export default function Chat({ currentChatId, setCurrentChatId }: { currentChatI
                         </div>
                     </div>
                 ))}
+                {isLoading && (
+                    <div className="flex mb-5 gap-3 justify-start text-left">
+                        <div className="max-w-[70%] p-3 rounded-xl bg-transparent">
+                            <div className="flex items-center space-x-2">
+                                <div className="w-2 h-2 bg-[var(--pink-400)] rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                                <div className="w-2 h-2 bg-[var(--pink-400)] rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                                <div className="w-2 h-2 bg-[var(--pink-400)] rounded-full animate-bounce"></div>
+                            </div>
+                        </div>
+                    </div>
+                )}
                 <div ref={messagesEndRef} />
             </div>}
 
