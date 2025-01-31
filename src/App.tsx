@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useShortcut } from './hooks/useShortcut'
 
 function App() {
-  const [currentChatId, setCurrentChatId] = useState('currentChatId');
+  const [currentChatId, setCurrentChatId] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { getShortcutText, sidebarTooltipStyles } = useShortcut();
 
@@ -57,6 +57,7 @@ function App() {
       <div className={`fixed md:static md:block z-40 ${isSidebarOpen ? 'block' : 'hidden'}`}>
         <Sidebar
           setCurrentChatId={handleChatSelection}
+          currentChatId={currentChatId}
         />
       </div>
 

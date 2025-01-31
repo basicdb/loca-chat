@@ -136,7 +136,6 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
                     <div key={index} className={`flex mb-5 gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'} text-left`}>
                         {/* Message Bubble */}
                         <div className={`max-w-[70%] p-3 rounded-xl ${message.role === 'user' ? 'dark:bg-[var(--pink-700)] bg-[var(--pink-400)]' : 'bg-transparent'}`}>
-                            {console.log('Message content:', message.content)}
                             {message.role === 'assistant' ? (
                                 message.content
                                     .split(/(<think>.*?<\/think>)/gs)

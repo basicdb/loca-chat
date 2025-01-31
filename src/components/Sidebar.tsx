@@ -2,7 +2,10 @@ import { useBasic, useQuery } from '@basictech/react';
 import { Trash2 } from 'lucide-react';
 import { useShortcut } from '../hooks/useShortcut';
 
-export default function Sidebar({ setCurrentChatId }: { setCurrentChatId: (id: string) => void }) {
+export default function Sidebar({ setCurrentChatId, currentChatId }: {
+    setCurrentChatId: (id: string) => void,
+    currentChatId: string
+}) {
     const { signin, signout, user, isSignedIn, db } = useBasic();
     const chats = useQuery(() => db.collection('chats').getAll());
     const { getShortcutText, newChatTooltipStyles } = useShortcut();
@@ -32,22 +35,28 @@ export default function Sidebar({ setCurrentChatId }: { setCurrentChatId: (id: s
                     >
                         + new chat
                     </button>
-                    {chats?.map((chat: any) => (
-                        <div className="relative w-full mb-2" key={chat.id}>
-                            <button
-                                className="w-full text-sm py-2 bg-transparent rounded-sm border border-[0.25px] border-[var(--pink-800)] flex items-center justify-between px-3"
-                                onClick={() => setCurrentChatId(chat.id)}
-                            >
-                                <span>{chat.title}</span>
-                                <span
-                                    className="opacity-60 hover:opacity-100"
-                                    onClick={(e) => deleteChat(e, chat.id)}
+                    {chats?.map((chat: any) => {
+                        const isActive = chat.id === currentChatId;
+                        return (
+                            <div className="relative w-full mb-2" key={chat.id}>
+                                <button
+                                    className={`w-full text-sm py-2 rounded-sm border border-[0.25px] border-[var(--pink-800)] flex items-center justify-between px-3 ${isActive
+                                        ? 'bg-[var(--pink)] dark:bg-[var(--pink-500)] font-medium'
+                                        : ''
+                                        } hover:bg-[var(--pink-200)] dark:hover:bg-[var(--pink-800)]`}
+                                    onClick={() => setCurrentChatId(chat.id)}
                                 >
-                                    <Trash2 size={16} />
-                                </span>
-                            </button>
-                        </div>
-                    ))}
+                                    <span>{chat.title}</span>
+                                    <span
+                                        className="opacity-60 hover:opacity-100"
+                                        onClick={(e) => deleteChat(e, chat.id)}
+                                    >
+                                        <Trash2 size={16} />
+                                    </span>
+                                </button>
+                            </div>
+                        );
+                    })}
                 </div>
                 <button className={`w-full ${isSignedIn ? 'text-sm py-2.5' : 'text-md py-2'} mb-3 rounded-md text-black dark:text-white border border-[var(--pink-800)] dark:bg-[var(--pink-800)] dark:hover:bg-[var(--pink-700)] hover:bg-[var(--pink)]`} onClick={isSignedIn ? signout : signin}>
                     {isSignedIn ? 'sign out ' + user?.email : 'sign in'}
