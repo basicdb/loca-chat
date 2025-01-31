@@ -6,7 +6,6 @@ import { useShortcut } from '../hooks/useShortcut';
 
 export default function Chat({ currentChatId }: { currentChatId: string }) {
     const [message, setMessage] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
     const { db } = useBasic();
     const messages = useQuery(() => db.collection('messages').getAll());
     const currentMessages = messages?.filter((message: any) => message.chat_id === currentChatId);
@@ -25,7 +24,6 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
     }
 
     const generateResponse = async (message: string) => {
-        setIsLoading(true);
         const cleanedMessages = currentMessages?.map((message: any) => ({
             role: message.role,
             content: message.content,
@@ -60,7 +58,6 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
                 created_at: new Date().toISOString()
             });
         }
-        setIsLoading(false);
     }
 
     const markdownComponents = {
@@ -144,8 +141,8 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
                                     .split(/(<think>.*?<\/think>)/gs)
                                     .map((part: any) => {
                                         if (part.startsWith('<think>') && part.endsWith('</think>')) {
-                                            const thoughtContent = part.replace(/<\/?think>/g, '');
-                                            return (
+                                            const thoughtContent = part.replace(/<\/?think>/g, '').trim();
+                                            return thoughtContent ? (
                                                 <span>
                                                     <p className="text-xs text-bold italics text-[var(--pink-500)] underline">internal thoughts</p>
                                                     <i className="text-xs text-[var(--pink-500)]">
@@ -154,13 +151,13 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
                                                         ))}
                                                     </i>
                                                 </span>
-                                            );
+                                            ) : null;
                                         }
 
                                         return part.split(/([^<]*<\/think>|<think>[^<\n]*)/g).map((subPart: any, i: any) => {
                                             if (subPart.startsWith('<think>')) {
-                                                const thoughtContent = subPart.replace('<think>', '');
-                                                return (
+                                                const thoughtContent = subPart.replace('<think>', '').trim();
+                                                return thoughtContent ? (
                                                     <span key={i}>
                                                         <i className="text-xs text-[var(--pink-500)]">
                                                             {thoughtContent.split('\n').map((line: string, j: number) => (
@@ -168,10 +165,10 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
                                                             ))}
                                                         </i>
                                                     </span>
-                                                );
+                                                ) : null;
                                             } else if (subPart.endsWith('</think>')) {
-                                                const thoughtContent = subPart.replace('</think>', '');
-                                                return (
+                                                const thoughtContent = subPart.replace('</think>', '').trim();
+                                                return thoughtContent ? (
                                                     <span key={i}>
                                                         <p className="text-xs text-bold italics text-[var(--pink-500)] underline">internal thoughts</p>
                                                         <i className="text-xs text-[var(--pink-500)]">
@@ -180,7 +177,7 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
                                                             ))}
                                                         </i>
                                                     </span>
-                                                );
+                                                ) : null;
                                             }
                                             return (
                                                 <span key={i}>
@@ -200,17 +197,6 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
                         </div>
                     </div>
                 ))}
-                {isLoading && (
-                    <div className="flex mb-5 gap-3 justify-start text-left">
-                        <div className="max-w-[70%] p-3 rounded-xl bg-transparent">
-                            <div className="flex items-center space-x-2">
-                                <div className="w-2 h-2 bg-[var(--pink-400)] rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-                                <div className="w-2 h-2 bg-[var(--pink-400)] rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-                                <div className="w-2 h-2 bg-[var(--pink-400)] rounded-full animate-bounce"></div>
-                            </div>
-                        </div>
-                    </div>
-                )}
                 <div ref={messagesEndRef} />
             </div>}
 
