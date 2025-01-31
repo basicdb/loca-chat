@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useShortcut } from '../hooks/useShortcut';
 
-export default function Chat({ currentChatId }: { currentChatId: string }) {
+export default function Chat({ currentChatId, setCurrentChatId }: { currentChatId: string, setCurrentChatId: (id: string) => void }) {
     const [message, setMessage] = useState('');
     const { db } = useBasic();
     const messages = useQuery(() => db.collection('messages').getAll());
@@ -12,18 +12,28 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const { sendButtonTooltipStyles } = useShortcut();
 
-    const addUserMessage = (message: string) => {
+    const addUserMessage = async (message: string) => {
+        let chatId = currentChatId;
+        if (chatId === '') {
+            const newChatId = await db.collection('chats').add({
+                title: 'yapping...',
+                created_at: new Date().toISOString()
+            });
+            chatId = newChatId;
+            setCurrentChatId(newChatId);
+        }
+
         db.collection('messages').add({
             role: 'user',
             content: message,
-            chat_id: currentChatId,
+            chat_id: chatId,
             created_at: new Date().toISOString()
         });
         setMessage('');
-        generateResponse(message);
+        generateResponse(message, chatId);
     }
 
-    const generateResponse = async (message: string) => {
+    const generateResponse = async (message: string, chatId: string) => {
         const cleanedMessages = currentMessages?.map((message: any) => ({
             role: message.role,
             content: message.content,
@@ -54,7 +64,7 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
             db.collection('messages').add({
                 role: 'assistant',
                 content: assistantMessage,
-                chat_id: currentChatId,
+                chat_id: chatId,
                 created_at: new Date().toISOString()
             });
         }

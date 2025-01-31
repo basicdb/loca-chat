@@ -62,7 +62,7 @@ function App() {
       </div>
 
       <div className="flex w-[800px] min-w-[320px] mx-auto px-5">
-        <Chat currentChatId={currentChatId} />
+        <Chat currentChatId={currentChatId} setCurrentChatId={setCurrentChatId} />
       </div>
     </div>
   )
