@@ -37,7 +37,7 @@ export default function Sidebar({ setCurrentChatId, currentChatId }: {
                                     alt="Company Logo"
                                     className="h-8 w-auto"
                                 />
-                                <span className="font-medium text-black text-sm">lcl by Basic (beta)</span>
+                                <span className="font-medium text-black text-sm">locl by Basic (beta)</span>
                             </div>
                         </div>
                         <div className="mb-4 hidden dark:block">
@@ -47,7 +47,7 @@ export default function Sidebar({ setCurrentChatId, currentChatId }: {
                                     alt="Company Logo"
                                     className="h-6 w-auto"
                                 />
-                                <span className="font-medium text-white text-xs">lcl by Basic (beta)</span>
+                                <span className="font-medium text-white text-xs">locl by Basic (beta)</span>
                             </div>
                         </div>
                         <button
