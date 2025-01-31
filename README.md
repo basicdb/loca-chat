@@ -1,50 +1,103 @@
-# React + TypeScript + Vite
+# Loca.chat
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern chat application built with React, TypeScript, and Vite, powered by Basic for backend services.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🚀 Real-time chat functionality
+- 💾 Persistent message storage
+- 🎨 Dark/Light mode support
+- ⌨️ Keyboard shortcuts
+- 📝 Markdown support in messages
+- 🔐 User authentication
+- 📱 Responsive design
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Frontend Framework**: React 18.3
+- **Language**: TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **Backend/Auth**: Basic Tech
+- **Markdown**: React Markdown
+- **Icons**: Lucide React
 
-- Configure the top-level `parserOptions` property like this:
+## Getting Started
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm or yarn
+- Basic Tech account
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/loca-chat.git
+cd loca-chat
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+2. Install dependencies:
+```bash
+npm install
 ```
+
+3. Create a Basic Tech project and update the configuration in `basic.config.ts` with your project details.
+
+4. Start the development server:
+```bash
+npm run dev
+```
+
+### Building for Production
+
+```bash
+npm run build
+```
+
+The built files will be in the `dist` directory.
+
+## Project Structure
+
+```
+loca-chat/
+├── src/
+│   ├── components/     # React components
+│   ├── hooks/         # Custom React hooks
+│   ├── App.tsx        # Main application component
+│   └── main.tsx       # Application entry point
+├── public/            # Static assets
+└── basic.config.ts    # Basic Tech configuration
+```
+
+## Keyboard Shortcuts
+
+- **Alt/Option + N**: Create new chat
+- **Alt/Option + S**: Toggle sidebar
+- **Enter**: Send message
+
+## Environment Setup
+
+The project uses several configuration files:
+- `tsconfig.app.json` - TypeScript configuration for the app
+- `tsconfig.node.json` - TypeScript configuration for Node.js
+- `vite.config.ts` - Vite configuration
+- `eslint.config.js` - ESLint configuration
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+
+## Acknowledgments
+
+- [Basic Tech](https://basic.tech) for database and authentication
+- [Vite](https://vitejs.dev) for the build tooling
+- [Tailwind CSS](https://tailwindcss.com) for styling
+- [Lucide React](https://lucide.dev) for icons
