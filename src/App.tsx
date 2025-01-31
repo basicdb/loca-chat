@@ -2,11 +2,25 @@ import Chat from './components/Chat'
 import Sidebar from './components/Sidebar'
 import { useState, useEffect } from 'react'
 import { useShortcut } from './hooks/useShortcut'
+import { useHotkeys } from 'react-hotkeys-hook'
+import { useBasic } from '@basictech/react'
 
 function App() {
   const [currentChatId, setCurrentChatId] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { getShortcutText, sidebarTooltipStyles } = useShortcut();
+  const { db } = useBasic();
+
+  // Add hotkey handlers
+  useHotkeys('alt+s', () => setIsSidebarOpen(!isSidebarOpen), [isSidebarOpen]);
+  useHotkeys('alt+n', async () => {
+    const newChatId = await db.collection('chats').add({
+      title: 'yapping...',
+      created_at: new Date().toISOString()
+    });
+    setCurrentChatId(newChatId);
+    if (isSidebarOpen) setIsSidebarOpen(false);
+  }, [db, isSidebarOpen]);
 
   const handleSidebarClose = () => {
     setIsSidebarOpen(false);

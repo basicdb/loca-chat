@@ -17,11 +17,20 @@ export default function Chat({ currentChatId, setCurrentChatId }: { currentChatI
         let chatId = currentChatId;
         if (chatId === '') {
             const newChatId = await db.collection('chats').add({
-                title: 'yapping...',
+                title: message,
                 created_at: new Date().toISOString()
             });
             chatId = newChatId;
             setCurrentChatId(newChatId);
+        } else {
+            // Get the current chat
+            const chat = await db.collection('chats').get(chatId);
+            // If the title is still "yapping..." and there are no messages yet, update it
+            if (chat.title === 'yapping...' && !currentMessages?.length) {
+                await db.collection('chats').update(chatId, {
+                    title: message
+                });
+            }
         }
 
         db.collection('messages').add({

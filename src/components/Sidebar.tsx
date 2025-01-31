@@ -22,6 +22,7 @@ export default function Sidebar({ setCurrentChatId, currentChatId }: {
     const deleteChat = async (e: React.MouseEvent, chatId: string) => {
         e.stopPropagation(); // Prevent triggering the chat selection
         await db.collection('chats').delete(chatId);
+        setCurrentChatId('');
     }
 
     return (
