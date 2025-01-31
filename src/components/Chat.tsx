@@ -214,9 +214,9 @@ export default function Chat({ currentChatId, setCurrentChatId }: { currentChatI
                     <div className="flex mb-5 gap-3 justify-start text-left">
                         <div className="max-w-[70%] p-3 rounded-xl bg-transparent">
                             <div className="flex items-center space-x-2">
-                                <div className="w-2 h-2 bg-[var(--pink-400)] rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-                                <div className="w-2 h-2 bg-[var(--pink-400)] rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-                                <div className="w-2 h-2 bg-[var(--pink-400)] rounded-full animate-bounce"></div>
+                                <div className="w-2 h-2 bg-[var(--pink-400)] rounded-full animate-[bounce_1s_infinite_-0.3s]"></div>
+                                <div className="w-2 h-2 bg-[var(--pink-400)] rounded-full animate-[bounce_1s_infinite_-0.15s]"></div>
+                                <div className="w-2 h-2 bg-[var(--pink-400)] rounded-full animate-[bounce_1s_infinite]"></div>
                             </div>
                         </div>
                     </div>
