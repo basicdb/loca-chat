@@ -2,6 +2,7 @@ import { SendHorizontal } from 'lucide-react';
 import { useBasic, useQuery } from '@basictech/react';
 import { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { useShortcut } from '../hooks/useShortcut';
 
 export default function Chat({ currentChatId }: { currentChatId: string }) {
     const [message, setMessage] = useState('');
@@ -9,6 +10,7 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
     const messages = useQuery(() => db.collection('messages').getAll());
     const currentMessages = messages?.filter((message: any) => message.chat_id === currentChatId);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const { sendButtonTooltipStyles } = useShortcut();
 
     const addUserMessage = (message: string) => {
         db.collection('messages').add({
@@ -216,8 +218,9 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
                         placeholder={`${currentMessages?.length > 0 ? 'Continue the conversation...' : 'Ponder about the universe...'}`}
                     />
                     <button
-                        className="p-2.5 rounded-r-lg border-none bg-[var(--pink-600)] text-white cursor-pointer flex items-center"
+                        className={`p-2.5 rounded-r-lg border-none bg-[var(--pink-600)] text-white cursor-pointer flex items-center ${sendButtonTooltipStyles}`}
                         onClick={() => addUserMessage(message)}
+                        data-tip="⏎ enter"
                     >
                         <SendHorizontal size={20} />
                     </button>

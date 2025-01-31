@@ -1,9 +1,11 @@
 import { useBasic, useQuery } from '@basictech/react';
 import { Trash2 } from 'lucide-react';
+import { useShortcut } from '../hooks/useShortcut';
 
 export default function Sidebar({ setCurrentChatId }: { setCurrentChatId: (id: string) => void }) {
     const { signin, signout, user, isSignedIn, db } = useBasic();
     const chats = useQuery(() => db.collection('chats').getAll());
+    const { getShortcutText, newChatTooltipStyles } = useShortcut();
 
     const createNewChat = async () => {
         const newChatId = await db.collection('chats').add({
@@ -25,7 +27,8 @@ export default function Sidebar({ setCurrentChatId }: { setCurrentChatId: (id: s
                 <div>
                     <button
                         onClick={createNewChat}
-                        className="w-full py-2 mb-3 rounded-md text-black dark:text-white cursor-pointer dark:bg-[var(--pink-700)] border border-[var(--pink-700)] dark:hover:bg-[var(--pink-800)] hover:bg-[var(--pink)]"
+                        className={`w-full py-2 mb-3 rounded-md text-black dark:text-white cursor-pointer dark:bg-[var(--pink-700)] border border-[var(--pink-700)] dark:hover:bg-[var(--pink-800)] hover:bg-[var(--pink)] ${newChatTooltipStyles}`}
+                        data-tip={getShortcutText('n')}
                     >
                         + new chat
                     </button>

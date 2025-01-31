@@ -1,11 +1,12 @@
-import './App.css'
 import Chat from './components/Chat'
 import Sidebar from './components/Sidebar'
 import { useState, useEffect } from 'react'
+import { useShortcut } from './hooks/useShortcut'
 
 function App() {
   const [currentChatId, setCurrentChatId] = useState('currentChatId');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { getShortcutText, sidebarTooltipStyles } = useShortcut();
 
   const handleSidebarClose = () => {
     setIsSidebarOpen(false);
@@ -32,14 +33,17 @@ function App() {
   return (
     <div className="flex w-[100vw] h-screen">
       {/* Burger menu icon for mobile */}
-      <button
-        className="md:hidden fixed top-4 left-4 z-20 p-2 rounded-lg bg-white dark:bg-black"
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
+      <div className="md:hidden fixed top-4 left-4 z-20">
+        <button
+          className={`p-2 rounded-lg bg-white dark:bg-black ${sidebarTooltipStyles}`}
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          data-tip={getShortcutText('s')}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
 
       {/* Overlay for closing sidebar */}
       {isSidebarOpen && (
