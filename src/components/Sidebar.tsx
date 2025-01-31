@@ -31,7 +31,7 @@ export default function Sidebar({ setCurrentChatId, currentChatId }: {
                 <div>
                     <button
                         onClick={createNewChat}
-                        className={`w-full py-2 mb-3 rounded-md text-black dark:text-white cursor-pointer dark:bg-[var(--pink-700)] border border-[var(--pink-700)] dark:hover:bg-[var(--pink-800)] hover:bg-[var(--pink)] ${newChatTooltipStyles}`}
+                        className={`w-full py-2 mb-3 rounded-md text-black dark:text-white cursor-pointer dark:bg-[var(--pink-700)] border border-[var(--pink-700)] dark:hover:bg-[var(--pink-800)] hover:bg-[var(--pink)] z-50 ${newChatTooltipStyles}`}
                         data-tip={getShortcutText('n')}
                     >
                         + new chat
