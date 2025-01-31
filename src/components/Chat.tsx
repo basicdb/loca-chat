@@ -131,7 +131,7 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
     return (
         <div className={`flex flex-col ${currentMessages?.length > 0 ? 'justify-between' : 'justify-center'} h-full w-full`}>
             {/* Text bubbles area */}
-            {currentMessages?.length > 0 && <div className="overflow-y-auto pt-5 px-2 [&::-webkit-scrollbar]:bg-transparent [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-[var(--pink-200)] dark:[&::-webkit-scrollbar-thumb]:bg-[var(--pink-800)] [&::-webkit-scrollbar-thumb]:rounded-full">
+            {currentMessages?.length > 0 && <div className="overflow-y-auto pt-5 px-2 [&::-webkit-scrollbar]:bg-transparent [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-[var(--pink-200)] dark:[&::-webkit-scrollbar-thumb]:bg-[var(--pink-800)] [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:visible [&::-webkit-scrollbar-thumb]:invisible">
                 {currentMessages?.map((message: any, index: any) => (
                     <div key={index} className={`flex mb-5 gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'} text-left`}>
                         {/* Message Bubble */}
