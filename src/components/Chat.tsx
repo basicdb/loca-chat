@@ -234,7 +234,7 @@ export default function Chat({ currentChatId, setCurrentChatId }: { currentChatI
             </div>}
 
             {/* Input area */}
-            <div className="flex flex-col mb-10">
+            <div className="flex flex-col pb-6 md:pb-8">
                 <div className="flex flex-row items-center">
                     <input
                         className="flex-1 py-2 px-4 rounded-l-lg border-t border-l border-b border-[#353126] border-r-0 bg-transparent focus:outline-none"

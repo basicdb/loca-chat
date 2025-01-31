@@ -80,7 +80,7 @@ function App() {
       </div>
 
       {/* Version text */}
-      <div className="fixed bottom-2 right-2 text-[10px] text-pink-400">
+      <div className="fixed bottom-2 right-2 text-[10px] text-pink-400 hidden md:block">
         v0.3.14 - experimental
       </div>
     </div>
