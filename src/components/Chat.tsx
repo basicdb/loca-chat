@@ -250,7 +250,7 @@ export default function Chat({ currentChatId, setCurrentChatId }: { currentChatI
                     />
                     <button
                         className={`p-2.5 rounded-r-lg border-none bg-[var(--pink-600)] text-white cursor-pointer flex items-center ${sendButtonTooltipStyles}`}
-                        onClick={() => addUserMessage(message)}
+                        onClick={() => message.trim() && addUserMessage(message)}
                         data-tip="⏎ enter"
                     >
                         <SendHorizontal size={20} />
