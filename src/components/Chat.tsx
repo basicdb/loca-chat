@@ -144,7 +144,7 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
                                             const thoughtContent = part.replace(/<\/?think>/g, '');
                                             return (
                                                 <span>
-                                                    <p className="text-xs text-bold italics text-[var(--pink-500)]">thinking...</p>
+                                                    <p className="text-xs text-bold italics text-[var(--pink-500)] underline">internal thoughts</p>
                                                     <i className="text-xs text-[var(--pink-500)]">
                                                         {thoughtContent.split('\n').map((line: string, i: number) => (
                                                             <span key={i} className="block mb-5">{line}</span>
@@ -159,7 +159,6 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
                                                 const thoughtContent = subPart.replace('<think>', '');
                                                 return (
                                                     <span key={i}>
-                                                        <p className="text-xs text-bold italics text-[var(--pink-500)]">thinking...</p>
                                                         <i className="text-xs text-[var(--pink-500)]">
                                                             {thoughtContent.split('\n').map((line: string, j: number) => (
                                                                 <span key={j} className="block mb-5">{line}</span>
@@ -171,7 +170,7 @@ export default function Chat({ currentChatId }: { currentChatId: string }) {
                                                 const thoughtContent = subPart.replace('</think>', '');
                                                 return (
                                                     <span key={i}>
-                                                        <p className="text-xs text-bold italics text-[var(--pink-500)]">thinking...</p>
+                                                        <p className="text-xs text-bold italics text-[var(--pink-500)] underline">internal thoughts</p>
                                                         <i className="text-xs text-[var(--pink-500)]">
                                                             {thoughtContent.split('\n').map((line: string, j: number) => (
                                                                 <span key={j} className="block mb-5">{line}</span>
