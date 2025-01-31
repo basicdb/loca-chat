@@ -47,7 +47,7 @@ export default function Sidebar({ setCurrentChatId, currentChatId }: {
                                         } hover:bg-[var(--pink-200)] dark:hover:bg-[var(--pink-800)]`}
                                     onClick={() => setCurrentChatId(chat.id)}
                                 >
-                                    <span>{chat.title}</span>
+                                    <span className="truncate text-left pr-2">{chat.title}</span>
                                     <span
                                         className="opacity-60 hover:opacity-100"
                                         onClick={(e) => deleteChat(e, chat.id)}
