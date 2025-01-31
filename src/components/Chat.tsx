@@ -211,7 +211,7 @@ export default function Chat({ currentChatId, setCurrentChatId }: { currentChatI
             </div>}
 
             {/* Input area */}
-            <div className="flex flex-col">
+            <div className="flex flex-col mb-10">
                 <div className="flex flex-row items-center">
                     <input
                         className="flex-1 py-2 px-4 rounded-l-lg border-t border-l border-b border-[#353126] border-r-0 bg-transparent focus:outline-none"
@@ -233,7 +233,6 @@ export default function Chat({ currentChatId, setCurrentChatId }: { currentChatI
                         <SendHorizontal size={20} />
                     </button>
                 </div>
-                <p className="text-center text-sm text-gray-500 my-2">Please note that Loca is an experimental product.</p>
             </div>
         </div>
     )

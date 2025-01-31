@@ -31,7 +31,7 @@ function App() {
   }, []);
 
   return (
-    <div className="flex w-[100vw] h-screen">
+    <div className="flex w-[100vw] h-[100dvh]">
       {/* Burger menu icon for mobile */}
       <div className="md:hidden fixed top-4 left-4 z-20">
         <button
@@ -63,6 +63,11 @@ function App() {
 
       <div className="flex w-[800px] min-w-[320px] mx-auto px-5">
         <Chat currentChatId={currentChatId} setCurrentChatId={setCurrentChatId} />
+      </div>
+
+      {/* Version text */}
+      <div className="fixed bottom-2 right-2 text-xs text-gray-400">
+        v0.3.14 - experimental
       </div>
     </div>
   )
