@@ -11,7 +11,17 @@ export default function Chat({ currentChatId, setCurrentChatId }: { currentChatI
     const messages = useQuery(() => db.collection('messages').getAll());
     const currentMessages = messages?.filter((message: any) => message.chat_id === currentChatId);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
     const { sendButtonTooltipStyles } = useShortcut();
+
+    const adjustTextareaHeight = () => {
+        const textarea = textareaRef.current;
+        if (textarea) {
+            textarea.style.height = 'auto';
+            const newHeight = Math.min(textarea.scrollHeight, 96); // 96px = 4 lines (24px per line)
+            textarea.style.height = `${newHeight}px`;
+        }
+    };
 
     const addUserMessage = async (message: string) => {
         let chatId = currentChatId;
@@ -40,6 +50,10 @@ export default function Chat({ currentChatId, setCurrentChatId }: { currentChatI
             created_at: new Date().toISOString()
         });
         setMessage('');
+        // Reset textarea height to initial state
+        if (textareaRef.current) {
+            textareaRef.current.style.height = '40px';
+        }
         generateResponse(message, chatId);
     }
 
@@ -236,25 +250,35 @@ export default function Chat({ currentChatId, setCurrentChatId }: { currentChatI
             {/* Input area */}
             <div className="flex flex-col pb-6 md:pb-8">
                 <div className="flex flex-row items-center">
-                    <input
-                        className="flex-1 py-2 px-4 rounded-l-lg border-t border-l border-b border-[#353126] border-r-0 bg-transparent focus:outline-none"
-                        type="text"
+                    <textarea
+                        ref={textareaRef}
+                        className="flex-1 py-2 px-4 rounded-l-lg border-t border-l border-b border-[#353126] border-r-0 bg-transparent focus:outline-none resize-none overflow-y-auto min-h-[40px] leading-6"
                         value={message}
-                        onChange={(e) => setMessage(e.target.value)}
+                        onChange={(e) => {
+                            setMessage(e.target.value);
+                            adjustTextareaHeight();
+                        }}
                         onKeyDown={(e) => {
-                            if (e.key === 'Enter' && message.trim()) {
-                                addUserMessage(message);
+                            if (e.key === 'Enter' && !e.shiftKey) {
+                                e.preventDefault();
+                                if (message.trim()) {
+                                    addUserMessage(message);
+                                }
                             }
                         }}
+                        rows={1}
                         placeholder={`${currentMessages?.length > 0 ? 'Continue the conversation...' : 'Ponder about the universe...'}`}
                     />
                     <button
-                        className={`p-2.5 rounded-r-lg border-none bg-[var(--pink-600)] text-white cursor-pointer flex items-center ${sendButtonTooltipStyles}`}
+                        className={`p-2.5 rounded-r-lg border-none bg-[var(--pink-600)] text-white cursor-pointer flex items-center self-stretch ${sendButtonTooltipStyles}`}
                         onClick={() => message.trim() && addUserMessage(message)}
                         data-tip="⏎ enter"
                     >
                         <SendHorizontal size={20} />
                     </button>
+                </div>
+                <div className="text-xs text-[var(--pink-500)] mt-1 ml-1">
+                    Press Enter to send, Shift+Enter for new line
                 </div>
             </div>
         </div>
